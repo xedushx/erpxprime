@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<!--    <h:head>
+        <title>Message Plus - Login</title>           
+        <h:outputScript library="sistema" name="sistema.js"/>
+        <h:outputStylesheet library="sistema" name="estilo.css"/>
+        <link type="text/css" rel="Stylesheet" href="css/estilo.css" />
+        <link rel="icon" type="image/png" href="imagenes/logo_2_ep_nuevo.ico" />
+    </h:head>
+    <h:body>
+        <p:growl autoUpdate="true" showDetail="true" sticky="true"/>
+        <p:layout fullPage="true">
+            <p:layoutUnit position="center" style="background-color: #367bab;">
+                <div align="center" style="background-color: #367bab; width: 100%; height: 100%;" >
+                    <br/>
+                    <br/>
+                    <p:graphicImage value="imagenes/LogoTelefonica.png" width="350" alt="Image Description for cabecera mplus" title="cabecera mplus"/>
+                    <br/>
+                    <br/>
+                    <h:form id="formulario" binding="{mbe_login.formulario}"/>
+                </div>
+            </p:layoutUnit>
+
+        </p:layout>
+    </h:body>-->
+    
+    
+    <h:head>
+        <title>Login</title>                
+        <h:outputScript library="sistema" name="sistema.js"/>
+        <h:outputStylesheet library="sistema" name="estilo.css"/>
+        <link rel="stylesheet" href="css/estilo.css" />
+    </h:head>
+    <h:body style="margin: 0px;padding: 0px;background: url(imagenes/bg.png) repeat;">  
+        <p:growl autoUpdate="true" showDetail="true" />  
+        <div class="ui-widget-content" align="center"  style="overflow: hidden;width: 85%; margin: 0px auto;height: 1000px;" >
+            <h:panelGrid   style="padding-left: 5%;padding-right: 5%;"  width="100%" columns="3">
+                <p:graphicImage value="upload/logos/logo.png" alt="XPRIME" width="205" height="226" />    
+                <h:panelGrid style="text-align: center" columns="1" width="100%">
+                    <h:outputText value="Sistema Contable Financiero" style="font-style: italic;font-size: 26px;border: none;text-shadow: 0px 2px 3px #ccc;background: none"/>    
+                    <h:outputText value="ERP-XPRIME Versión 1" style="font-style: italic;font-size: 20px;border: none;text-shadow: 0px 2px 3px #ccc;background: none"/>                        
+                </h:panelGrid>
+                <h:form  id="formulario" binding="#{mbe_login.formulario}" style="padding-left:20px;padding-right: 10px;"/>                         
+            </h:panelGrid>
+
+            <div class="ui-widget-header ui-corner-all" style=" width: 90%; height: 20px; margin-top:  20px;"/>
+            
+            <p:galleria panelHeight="250"  frameWidth="64" frameHeight="64" 
+                        var="modulo" value="#{mbe_login.lis_detalle_modulos}" style="width: 100%;" >                            
+                <p:graphicImage value="#{modulo[1]}" width="92" height="92" title="#{modulo[0]}"/> 
+                <p:galleriaContent>  
+                    <h:panelGrid columns="2" cellpadding="5">  
+                        <f:facet name="header">  
+                            <h:outputText id="name" value="#{modulo[0]}" style="font-style: italic;font-size: 2.5em;border: none;text-shadow: 0px 2px 3px #ccc;background: none"/>    
+                        </f:facet>  
+                        <p:graphicImage value="#{modulo[1]}" width="92" height="92"/>  
+                        <h:outputText id="number" value="#{modulo[2]}" style="font-size: 16px;"/>  
+                    </h:panelGrid>  
+                </p:galleriaContent>  
+            </p:galleria>
+        </div>    
+    </h:body>
+    
+</html>
+

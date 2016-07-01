@@ -211,11 +211,12 @@ ALTER TABLE public.tbl_usuario OWNER TO postgres;
 -- Data for Name: tbl_accion; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY tbl_accion (id_accion, id_empresa, nombre) FROM stdin;
-1	1	Guardar
-2	1	Eliminar
-3	1	Modificar
-\.
+INSERT INTO tbl_accion (id_accion, id_empresa, nombre) VALUES (1,1,'Guardar'),(2,1,'Eliminar'),(3,1,'Modificar');
+--COPY tbl_accion (id_accion, id_empresa, nombre) FROM stdin;
+--1	1	Guardar
+--2	1	Eliminar
+--3	1	Modificar
+--\.
 
 
 --
@@ -224,8 +225,8 @@ COPY tbl_accion (id_accion, id_empresa, nombre) FROM stdin;
 -- Data for Name: tbl_bloqueo; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY tbl_bloqueo (id_bloqueo, id_usuario, tabla, maximo, nombre_usuario) FROM stdin;
-\.
+--COPY tbl_bloqueo (id_bloqueo, id_usuario, tabla, maximo, nombre_usuario) FROM stdin;
+--\.
 
 
 --
@@ -234,9 +235,10 @@ COPY tbl_bloqueo (id_bloqueo, id_usuario, tabla, maximo, nombre_usuario) FROM st
 -- Data for Name: tbl_correo; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY tbl_correo (id_correo, id_empresa, smtp, puerto, usuario, clave) FROM stdin;
-1	1	mail.virtualmedic.org	587	soporte@virtualmedic.org	sovm2015$
-\.
+INSERT INTO tbl_correo (id_correo, id_empresa, smtp, puerto, usuario, clave) VALUES (1,1,'mail.virtualmedic.org','587','soporte@virtualmedic.org','sovm2015$');
+--COPY tbl_correo (id_correo, id_empresa, smtp, puerto, usuario, clave) FROM stdin;
+--1	1	mail.virtualmedic.org	587	soporte@virtualmedic.org	sovm2015$
+--\.
 
 
 --
@@ -245,9 +247,10 @@ COPY tbl_correo (id_correo, id_empresa, smtp, puerto, usuario, clave) FROM stdin
 -- Data for Name: tbl_empresa; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY tbl_empresa (id_empresa, nombre, telefono, representante, direccion, logo_empr, emp_estado) FROM stdin;
-1	J&E FABRICANTES	\N	Julio Cevallos	La Argelia	/upload/logos/120150617110631.png	t
-\.
+INSERT INTO tbl_empresa (id_empresa, nombre, telefono, representante, direccion, logo_empr, emp_estado) VALUES (1,'J&E FABRICANTES',null,'Julio Cevallos','La Argelia','/upload/logos/120150617110631.png',true);
+--COPY tbl_empresa (id_empresa, nombre, telefono, representante, direccion, logo_empr, emp_estado) FROM stdin;
+--1	J&E FABRICANTES	\N	Julio Cevallos	La Argelia	/upload/logos/120150617110631.png	t
+--\.
 
 
 --
@@ -256,15 +259,24 @@ COPY tbl_empresa (id_empresa, nombre, telefono, representante, direccion, logo_e
 -- Data for Name: tbl_opcion; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY tbl_opcion (id_opcion, id_empresa, enlace, nombre, paquete, auditada, id_opcion_2) FROM stdin;
-1	1	\N	SISTEMA	\N	\N	\N
-7	1	\N	Configuración	\N	f	1
-8	1	con_configuracion	Parámetros Iniciales	ec.virtualmed.configuracion	f	7
-3	1	sis_usuario	Usuarios	ec.virtualmed.sistema	f	1
-4	1	sis_permiso	Permisos	ec.virtualmed.sistema	f	1
-5	1	sis_opcion	Opciones	ec.virtualmed.sistema	f	1
-2	1	sis_empresa	Empresas	ec.virtualmed.sistema	f	1
-\.
+INSERT INTO tbl_opcion (id_opcion, id_empresa, enlace, nombre, paquete, auditada, id_opcion_2) 
+VALUES 
+(1,1,null,'SISTEMA',null,null,null),
+(7,1,null,'Configuración',null,false,1),
+(8,1,'con_configuracion','Parámetros Iniciales','ec.com.erpxprime.configuracion',false,7),
+(3,1,'sis_usuario','Usuarios','ec.com.erpxprime.sistema',false,1),
+(4,1,'sis_permiso','Permisos','ec.com.erpxprime.sistema',false,1),
+(5,1,'sis_opcion','Opciones','ec.com.erpxprime.sistema',false,1),
+(2,1,'sis_empresa','Empresas','ec.com.erpxprime.sistema',false,1);
+--COPY tbl_opcion (id_opcion, id_empresa, enlace, nombre, paquete, auditada, id_opcion_2) FROM stdin;
+--1	1	\N	SISTEMA	\N	\N	\N
+--7	1	\N	Configuración	\N	f	1
+--8	1	con_configuracion	Parámetros Iniciales	ec.virtualmed.configuracion	f	7
+--3	1	sis_usuario	Usuarios	ec.virtualmed.sistema	f	1
+--4	1	sis_permiso	Permisos	ec.virtualmed.sistema	f	1
+--5	1	sis_opcion	Opciones	ec.virtualmed.sistema	f	1
+--2	1	sis_empresa	Empresas	ec.virtualmed.sistema	f	1
+--\.
 
 
 --
@@ -273,9 +285,10 @@ COPY tbl_opcion (id_opcion, id_empresa, enlace, nombre, paquete, auditada, id_op
 -- Data for Name: tbl_perfil; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY tbl_perfil (id_perfil, id_empresa, nombre, descripcion, id_perfil2) FROM stdin;
-1	1	Administrador	Acceso total	\N
-\.
+INSERT INTO tbl_perfil (id_perfil, id_empresa, nombre, descripcion, id_perfil2) VALUES (1,1,'Administrador','Acceso total',null);
+--COPY tbl_perfil (id_perfil, id_empresa, nombre, descripcion, id_perfil2) FROM stdin;
+--1	1	Administrador	Acceso total	\N
+--\.
 
 
 --
@@ -284,15 +297,23 @@ COPY tbl_perfil (id_perfil, id_empresa, nombre, descripcion, id_perfil2) FROM st
 -- Data for Name: tbl_perfil_opcion; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY tbl_perfil_opcion (id_perfil_opcion, id_opcion, id_perfil, id_empresa, lectura) FROM stdin;
-1	1	1	1	f
-2	2	1	1	f
-3	3	1	1	f
-4	4	1	1	f
-5	5	1	1	f
-12	7	1	1	f
-13	8	1	1	f
-\.
+INSERT INTO tbl_perfil_opcion (id_perfil_opcion, id_opcion, id_perfil, id_empresa, lectura) VALUES 
+(1,1,1,1,false),
+(2,2,1,1,false),
+(3,3,1,1,false),
+(4,4,1,1,false),
+(5,5,1,1,false),
+(6,7,1,1,false),
+(7,8,1,1,false);
+--COPY tbl_perfil_opcion (id_perfil_opcion, id_opcion, id_perfil, id_empresa, lectura) FROM stdin;
+--1	1	1	1	f
+--2	2	1	1	f
+--3	3	1	1	f
+--4	4	1	1	f
+--5	5	1	1	f
+--12	7	1	1	f
+--13	8	1	1	f
+--\.
 
 
 --
@@ -301,8 +322,8 @@ COPY tbl_perfil_opcion (id_perfil_opcion, id_opcion, id_perfil, id_empresa, lect
 -- Data for Name: tbl_perfil_reporte; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY tbl_perfil_reporte (id_perfil_reporte, id_empresa, id_perfil, id_reporte) FROM stdin;
-\.
+--COPY tbl_perfil_reporte (id_perfil_reporte, id_empresa, id_perfil, id_reporte) FROM stdin;
+--\.
 
 
 --
@@ -311,8 +332,8 @@ COPY tbl_perfil_reporte (id_perfil_reporte, id_empresa, id_perfil, id_reporte) F
 -- Data for Name: tbl_reporte; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY tbl_reporte (id_reporte, id_empresa, id_opcion, nombre, path) FROM stdin;
-\.
+--COPY tbl_reporte (id_reporte, id_empresa, id_opcion, nombre, path) FROM stdin;
+--\.
 
 
 --
@@ -321,9 +342,11 @@ COPY tbl_reporte (id_reporte, id_empresa, id_opcion, nombre, path) FROM stdin;
 -- Data for Name: tbl_usuario; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY tbl_usuario (id_usuario, id_empresa, id_perfil, estado_sesion, cedula, nombre, nombre_completo, correo, correo2, clave, tema, fecha_registro, ruta_foto) FROM stdin;
-1	1	1	t	1723468193	admin	Eduardo Pacheco Mosquera	edyson51@hotmail.com	edushinksanetattoo@gmail.com	sxehardcore	pepper-grinder	2014-11-18 10:36:00	/upload/fotos_medicos/120150617110715.png
-\.
+INSERT INTO tbl_usuario (id_usuario, id_empresa, id_perfil, estado_sesion, cedula, nombre, nombre_completo, correo, correo2, clave, tema, fecha_registro, ruta_foto) VALUES
+(1,1,1,true,'1723468193','admin','Eduardo Pacheco Mosquera','edyson51@hotmail.com','edushinksanetattoo@gmail.com',MD5('sxehardcore'),'pepper-grinder','2016-07-01 10:36:00','/upload/fotosUsuarios/120150617110715.png');
+--COPY tbl_usuario (id_usuario, id_empresa, id_perfil, estado_sesion, cedula, nombre, nombre_completo, correo, correo2, clave, tema, fecha_registro, ruta_foto) FROM stdin;
+--1	1	1	t	1723468193	admin	Eduardo Pacheco Mosquera	edyson51@hotmail.com	edushinksanetattoo@gmail.com	sxehardcore	pepper-grinder	2014-11-18 10:36:00	/upload/fotos_medicos/120150617110715.png
+--\.
 
 
 --
