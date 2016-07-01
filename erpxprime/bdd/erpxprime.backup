@@ -1,0 +1,771 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.2.5
+-- Dumped by pg_dump version 9.2.5
+-- Started on 2016-06-30 23:51:02
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 178 (class 3079 OID 11727)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2030 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 168 (class 1259 OID 16394)
+-- Name: tbl_accion; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tbl_accion (
+    id_accion integer NOT NULL,
+    id_empresa integer,
+    nombre character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.tbl_accion OWNER TO postgres;
+
+--
+-- TOC entry 169 (class 1259 OID 16400)
+-- Name: tbl_bloqueo; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tbl_bloqueo (
+    id_bloqueo integer NOT NULL,
+    id_usuario integer,
+    tabla character varying(50),
+    maximo integer,
+    nombre_usuario character varying(100)
+);
+
+
+ALTER TABLE public.tbl_bloqueo OWNER TO postgres;
+
+--
+-- TOC entry 170 (class 1259 OID 16403)
+-- Name: tbl_correo; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tbl_correo (
+    id_correo integer NOT NULL,
+    id_empresa integer,
+    smtp character varying(50),
+    puerto integer,
+    usuario character varying(150),
+    clave character varying(30)
+);
+
+
+ALTER TABLE public.tbl_correo OWNER TO postgres;
+
+--
+-- TOC entry 171 (class 1259 OID 16406)
+-- Name: tbl_empresa; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tbl_empresa (
+    id_empresa integer NOT NULL,
+    nombre character varying(100) NOT NULL,
+    telefono character varying(30),
+    representante character varying(100),
+    direccion character varying(150),
+    logo_empr character varying(256),
+    emp_estado boolean DEFAULT true
+);
+
+
+ALTER TABLE public.tbl_empresa OWNER TO postgres;
+
+--
+-- TOC entry 172 (class 1259 OID 16413)
+-- Name: tbl_opcion; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tbl_opcion (
+    id_opcion integer NOT NULL,
+    id_empresa integer,
+    enlace character varying(30),
+    nombre character varying(100) NOT NULL,
+    paquete character varying(60),
+    auditada boolean,
+    id_opcion_2 integer
+);
+
+
+ALTER TABLE public.tbl_opcion OWNER TO postgres;
+
+--
+-- TOC entry 173 (class 1259 OID 16416)
+-- Name: tbl_perfil; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tbl_perfil (
+    id_perfil integer NOT NULL,
+    id_empresa integer,
+    nombre character varying(100) NOT NULL,
+    descripcion character varying(100),
+    id_perfil2 integer
+);
+
+
+ALTER TABLE public.tbl_perfil OWNER TO postgres;
+
+--
+-- TOC entry 174 (class 1259 OID 16419)
+-- Name: tbl_perfil_opcion; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tbl_perfil_opcion (
+    id_perfil_opcion integer NOT NULL,
+    id_opcion integer,
+    id_perfil integer,
+    id_empresa integer,
+    lectura boolean
+);
+
+
+ALTER TABLE public.tbl_perfil_opcion OWNER TO postgres;
+
+--
+-- TOC entry 175 (class 1259 OID 16422)
+-- Name: tbl_perfil_reporte; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tbl_perfil_reporte (
+    id_perfil_reporte integer NOT NULL,
+    id_empresa integer,
+    id_perfil integer,
+    id_reporte integer
+);
+
+
+ALTER TABLE public.tbl_perfil_reporte OWNER TO postgres;
+
+--
+-- TOC entry 176 (class 1259 OID 16425)
+-- Name: tbl_reporte; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tbl_reporte (
+    id_reporte integer NOT NULL,
+    id_empresa integer,
+    id_opcion integer,
+    nombre character varying(100),
+    path character varying(150)
+);
+
+
+ALTER TABLE public.tbl_reporte OWNER TO postgres;
+
+--
+-- TOC entry 177 (class 1259 OID 16428)
+-- Name: tbl_usuario; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tbl_usuario (
+    id_usuario integer NOT NULL,
+    id_empresa integer,
+    id_perfil integer,
+    estado_sesion boolean,
+    cedula character varying(20),
+    nombre character varying(100) NOT NULL,
+    nombre_completo character varying(100),
+    correo character varying(150),
+    correo2 character varying(150),
+    clave text NOT NULL,
+    tema character varying(50),
+    fecha_registro character varying(50),
+    ruta_foto character varying(200)
+);
+
+
+ALTER TABLE public.tbl_usuario OWNER TO postgres;
+
+--
+-- TOC entry 2013 (class 0 OID 16394)
+-- Dependencies: 168
+-- Data for Name: tbl_accion; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tbl_accion (id_accion, id_empresa, nombre) FROM stdin;
+1	1	Guardar
+2	1	Eliminar
+3	1	Modificar
+\.
+
+
+--
+-- TOC entry 2014 (class 0 OID 16400)
+-- Dependencies: 169
+-- Data for Name: tbl_bloqueo; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tbl_bloqueo (id_bloqueo, id_usuario, tabla, maximo, nombre_usuario) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2015 (class 0 OID 16403)
+-- Dependencies: 170
+-- Data for Name: tbl_correo; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tbl_correo (id_correo, id_empresa, smtp, puerto, usuario, clave) FROM stdin;
+1	1	mail.virtualmedic.org	587	soporte@virtualmedic.org	sovm2015$
+\.
+
+
+--
+-- TOC entry 2016 (class 0 OID 16406)
+-- Dependencies: 171
+-- Data for Name: tbl_empresa; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tbl_empresa (id_empresa, nombre, telefono, representante, direccion, logo_empr, emp_estado) FROM stdin;
+1	J&E FABRICANTES	\N	Julio Cevallos	La Argelia	/upload/logos/120150617110631.png	t
+\.
+
+
+--
+-- TOC entry 2017 (class 0 OID 16413)
+-- Dependencies: 172
+-- Data for Name: tbl_opcion; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tbl_opcion (id_opcion, id_empresa, enlace, nombre, paquete, auditada, id_opcion_2) FROM stdin;
+1	1	\N	SISTEMA	\N	\N	\N
+7	1	\N	Configuración	\N	f	1
+8	1	con_configuracion	Parámetros Iniciales	ec.virtualmed.configuracion	f	7
+3	1	sis_usuario	Usuarios	ec.virtualmed.sistema	f	1
+4	1	sis_permiso	Permisos	ec.virtualmed.sistema	f	1
+5	1	sis_opcion	Opciones	ec.virtualmed.sistema	f	1
+2	1	sis_empresa	Empresas	ec.virtualmed.sistema	f	1
+\.
+
+
+--
+-- TOC entry 2018 (class 0 OID 16416)
+-- Dependencies: 173
+-- Data for Name: tbl_perfil; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tbl_perfil (id_perfil, id_empresa, nombre, descripcion, id_perfil2) FROM stdin;
+1	1	Administrador	Acceso total	\N
+\.
+
+
+--
+-- TOC entry 2019 (class 0 OID 16419)
+-- Dependencies: 174
+-- Data for Name: tbl_perfil_opcion; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tbl_perfil_opcion (id_perfil_opcion, id_opcion, id_perfil, id_empresa, lectura) FROM stdin;
+1	1	1	1	f
+2	2	1	1	f
+3	3	1	1	f
+4	4	1	1	f
+5	5	1	1	f
+12	7	1	1	f
+13	8	1	1	f
+\.
+
+
+--
+-- TOC entry 2020 (class 0 OID 16422)
+-- Dependencies: 175
+-- Data for Name: tbl_perfil_reporte; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tbl_perfil_reporte (id_perfil_reporte, id_empresa, id_perfil, id_reporte) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2021 (class 0 OID 16425)
+-- Dependencies: 176
+-- Data for Name: tbl_reporte; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tbl_reporte (id_reporte, id_empresa, id_opcion, nombre, path) FROM stdin;
+\.
+
+
+--
+-- TOC entry 2022 (class 0 OID 16428)
+-- Dependencies: 177
+-- Data for Name: tbl_usuario; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tbl_usuario (id_usuario, id_empresa, id_perfil, estado_sesion, cedula, nombre, nombre_completo, correo, correo2, clave, tema, fecha_registro, ruta_foto) FROM stdin;
+1	1	1	t	1723468193	admin	Eduardo Pacheco Mosquera	edyson51@hotmail.com	edushinksanetattoo@gmail.com	sxehardcore	pepper-grinder	2014-11-18 10:36:00	/upload/fotos_medicos/120150617110715.png
+\.
+
+
+--
+-- TOC entry 1848 (class 2606 OID 16435)
+-- Name: pk_tbl_accion; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY tbl_accion
+    ADD CONSTRAINT pk_tbl_accion PRIMARY KEY (id_accion);
+
+
+--
+-- TOC entry 1852 (class 2606 OID 16437)
+-- Name: pk_tbl_bloqueo; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY tbl_bloqueo
+    ADD CONSTRAINT pk_tbl_bloqueo PRIMARY KEY (id_bloqueo);
+
+
+--
+-- TOC entry 1856 (class 2606 OID 16439)
+-- Name: pk_tbl_correo; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY tbl_correo
+    ADD CONSTRAINT pk_tbl_correo PRIMARY KEY (id_correo);
+
+
+--
+-- TOC entry 1860 (class 2606 OID 16441)
+-- Name: pk_tbl_empresa; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY tbl_empresa
+    ADD CONSTRAINT pk_tbl_empresa PRIMARY KEY (id_empresa);
+
+
+--
+-- TOC entry 1863 (class 2606 OID 16443)
+-- Name: pk_tbl_opcion; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY tbl_opcion
+    ADD CONSTRAINT pk_tbl_opcion PRIMARY KEY (id_opcion);
+
+
+--
+-- TOC entry 1867 (class 2606 OID 16445)
+-- Name: pk_tbl_perfil; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY tbl_perfil
+    ADD CONSTRAINT pk_tbl_perfil PRIMARY KEY (id_perfil);
+
+
+--
+-- TOC entry 1871 (class 2606 OID 16447)
+-- Name: pk_tbl_perfil_opcion; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY tbl_perfil_opcion
+    ADD CONSTRAINT pk_tbl_perfil_opcion PRIMARY KEY (id_perfil_opcion);
+
+
+--
+-- TOC entry 1877 (class 2606 OID 16449)
+-- Name: pk_tbl_perfil_reporte; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY tbl_perfil_reporte
+    ADD CONSTRAINT pk_tbl_perfil_reporte PRIMARY KEY (id_perfil_reporte);
+
+
+--
+-- TOC entry 1883 (class 2606 OID 16451)
+-- Name: pk_tbl_reporte; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY tbl_reporte
+    ADD CONSTRAINT pk_tbl_reporte PRIMARY KEY (id_reporte);
+
+
+--
+-- TOC entry 1888 (class 2606 OID 16453)
+-- Name: pk_tbl_usuario; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY tbl_usuario
+    ADD CONSTRAINT pk_tbl_usuario PRIMARY KEY (id_usuario);
+
+
+--
+-- TOC entry 1872 (class 1259 OID 16454)
+-- Name: relationship_10_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX relationship_10_fk ON tbl_perfil_opcion USING btree (id_perfil);
+
+
+--
+-- TOC entry 1889 (class 1259 OID 16455)
+-- Name: relationship_11_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX relationship_11_fk ON tbl_usuario USING btree (id_perfil);
+
+
+--
+-- TOC entry 1873 (class 1259 OID 16456)
+-- Name: relationship_12_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX relationship_12_fk ON tbl_perfil_opcion USING btree (id_opcion);
+
+
+--
+-- TOC entry 1853 (class 1259 OID 16457)
+-- Name: relationship_14_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX relationship_14_fk ON tbl_bloqueo USING btree (id_usuario);
+
+
+--
+-- TOC entry 1857 (class 1259 OID 16458)
+-- Name: relationship_15_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX relationship_15_fk ON tbl_correo USING btree (id_empresa);
+
+
+--
+-- TOC entry 1884 (class 1259 OID 16459)
+-- Name: relationship_16_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX relationship_16_fk ON tbl_reporte USING btree (id_empresa);
+
+
+--
+-- TOC entry 1885 (class 1259 OID 16460)
+-- Name: relationship_19_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX relationship_19_fk ON tbl_reporte USING btree (id_opcion);
+
+
+--
+-- TOC entry 1878 (class 1259 OID 16461)
+-- Name: relationship_20_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX relationship_20_fk ON tbl_perfil_reporte USING btree (id_empresa);
+
+
+--
+-- TOC entry 1879 (class 1259 OID 16462)
+-- Name: relationship_21_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX relationship_21_fk ON tbl_perfil_reporte USING btree (id_perfil);
+
+
+--
+-- TOC entry 1880 (class 1259 OID 16463)
+-- Name: relationship_22_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX relationship_22_fk ON tbl_perfil_reporte USING btree (id_reporte);
+
+
+--
+-- TOC entry 1849 (class 1259 OID 16464)
+-- Name: relationship_4_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX relationship_4_fk ON tbl_accion USING btree (id_empresa);
+
+
+--
+-- TOC entry 1864 (class 1259 OID 16465)
+-- Name: relationship_6_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX relationship_6_fk ON tbl_opcion USING btree (id_empresa);
+
+
+--
+-- TOC entry 1868 (class 1259 OID 16466)
+-- Name: relationship_7_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX relationship_7_fk ON tbl_perfil USING btree (id_empresa);
+
+
+--
+-- TOC entry 1874 (class 1259 OID 16467)
+-- Name: relationship_8_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX relationship_8_fk ON tbl_perfil_opcion USING btree (id_empresa);
+
+
+--
+-- TOC entry 1890 (class 1259 OID 16468)
+-- Name: relationship_9_fk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX relationship_9_fk ON tbl_usuario USING btree (id_empresa);
+
+
+--
+-- TOC entry 1850 (class 1259 OID 16469)
+-- Name: tbl_accion_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE UNIQUE INDEX tbl_accion_pk ON tbl_accion USING btree (id_accion);
+
+
+--
+-- TOC entry 1854 (class 1259 OID 16470)
+-- Name: tbl_bloqueo_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE UNIQUE INDEX tbl_bloqueo_pk ON tbl_bloqueo USING btree (id_bloqueo);
+
+
+--
+-- TOC entry 1858 (class 1259 OID 16471)
+-- Name: tbl_correo_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE UNIQUE INDEX tbl_correo_pk ON tbl_correo USING btree (id_correo);
+
+
+--
+-- TOC entry 1861 (class 1259 OID 16472)
+-- Name: tbl_empresa_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE UNIQUE INDEX tbl_empresa_pk ON tbl_empresa USING btree (id_empresa);
+
+
+--
+-- TOC entry 1865 (class 1259 OID 16473)
+-- Name: tbl_opcion_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE UNIQUE INDEX tbl_opcion_pk ON tbl_opcion USING btree (id_opcion);
+
+
+--
+-- TOC entry 1875 (class 1259 OID 16474)
+-- Name: tbl_perfil_opcion_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE UNIQUE INDEX tbl_perfil_opcion_pk ON tbl_perfil_opcion USING btree (id_perfil_opcion);
+
+
+--
+-- TOC entry 1869 (class 1259 OID 16475)
+-- Name: tbl_perfil_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE UNIQUE INDEX tbl_perfil_pk ON tbl_perfil USING btree (id_perfil);
+
+
+--
+-- TOC entry 1881 (class 1259 OID 16476)
+-- Name: tbl_perfil_reporte_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE UNIQUE INDEX tbl_perfil_reporte_pk ON tbl_perfil_reporte USING btree (id_perfil_reporte);
+
+
+--
+-- TOC entry 1886 (class 1259 OID 16477)
+-- Name: tbl_reporte_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE UNIQUE INDEX tbl_reporte_pk ON tbl_reporte USING btree (id_reporte);
+
+
+--
+-- TOC entry 1891 (class 1259 OID 16478)
+-- Name: tbl_usuario_pk; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE UNIQUE INDEX tbl_usuario_pk ON tbl_usuario USING btree (id_usuario);
+
+
+--
+-- TOC entry 1892 (class 2606 OID 16479)
+-- Name: fk_tbl_acci_relations_tbl_empr; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tbl_accion
+    ADD CONSTRAINT fk_tbl_acci_relations_tbl_empr FOREIGN KEY (id_empresa) REFERENCES tbl_empresa(id_empresa) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1893 (class 2606 OID 16484)
+-- Name: fk_tbl_bloq_relations_tbl_usua; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tbl_bloqueo
+    ADD CONSTRAINT fk_tbl_bloq_relations_tbl_usua FOREIGN KEY (id_usuario) REFERENCES tbl_usuario(id_usuario) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1894 (class 2606 OID 16489)
+-- Name: fk_tbl_corr_relations_tbl_empr; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tbl_correo
+    ADD CONSTRAINT fk_tbl_corr_relations_tbl_empr FOREIGN KEY (id_empresa) REFERENCES tbl_empresa(id_empresa) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1895 (class 2606 OID 16494)
+-- Name: fk_tbl_opci_relations_tbl_empr; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tbl_opcion
+    ADD CONSTRAINT fk_tbl_opci_relations_tbl_empr FOREIGN KEY (id_empresa) REFERENCES tbl_empresa(id_empresa) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1896 (class 2606 OID 16499)
+-- Name: fk_tbl_perf_relations_tbl_empr; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tbl_perfil
+    ADD CONSTRAINT fk_tbl_perf_relations_tbl_empr FOREIGN KEY (id_empresa) REFERENCES tbl_empresa(id_empresa) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1897 (class 2606 OID 16504)
+-- Name: fk_tbl_perf_relations_tbl_empr; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tbl_perfil_opcion
+    ADD CONSTRAINT fk_tbl_perf_relations_tbl_empr FOREIGN KEY (id_empresa) REFERENCES tbl_empresa(id_empresa) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1900 (class 2606 OID 16509)
+-- Name: fk_tbl_perf_relations_tbl_empr; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tbl_perfil_reporte
+    ADD CONSTRAINT fk_tbl_perf_relations_tbl_empr FOREIGN KEY (id_empresa) REFERENCES tbl_empresa(id_empresa) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1898 (class 2606 OID 16514)
+-- Name: fk_tbl_perf_relations_tbl_opci; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tbl_perfil_opcion
+    ADD CONSTRAINT fk_tbl_perf_relations_tbl_opci FOREIGN KEY (id_opcion) REFERENCES tbl_opcion(id_opcion) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1899 (class 2606 OID 16519)
+-- Name: fk_tbl_perf_relations_tbl_perf; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tbl_perfil_opcion
+    ADD CONSTRAINT fk_tbl_perf_relations_tbl_perf FOREIGN KEY (id_perfil) REFERENCES tbl_perfil(id_perfil) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1901 (class 2606 OID 16524)
+-- Name: fk_tbl_perf_relations_tbl_perf; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tbl_perfil_reporte
+    ADD CONSTRAINT fk_tbl_perf_relations_tbl_perf FOREIGN KEY (id_perfil) REFERENCES tbl_perfil(id_perfil) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1902 (class 2606 OID 16529)
+-- Name: fk_tbl_perf_relations_tbl_repo; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tbl_perfil_reporte
+    ADD CONSTRAINT fk_tbl_perf_relations_tbl_repo FOREIGN KEY (id_reporte) REFERENCES tbl_reporte(id_reporte) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1903 (class 2606 OID 16534)
+-- Name: fk_tbl_repo_relations_tbl_empr; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tbl_reporte
+    ADD CONSTRAINT fk_tbl_repo_relations_tbl_empr FOREIGN KEY (id_empresa) REFERENCES tbl_empresa(id_empresa) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1904 (class 2606 OID 16539)
+-- Name: fk_tbl_repo_relations_tbl_opci; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tbl_reporte
+    ADD CONSTRAINT fk_tbl_repo_relations_tbl_opci FOREIGN KEY (id_opcion) REFERENCES tbl_opcion(id_opcion) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1905 (class 2606 OID 16544)
+-- Name: fk_tbl_usua_relations_tbl_empr; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tbl_usuario
+    ADD CONSTRAINT fk_tbl_usua_relations_tbl_empr FOREIGN KEY (id_empresa) REFERENCES tbl_empresa(id_empresa) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 1906 (class 2606 OID 16549)
+-- Name: fk_tbl_usua_relations_tbl_perf; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY tbl_usuario
+    ADD CONSTRAINT fk_tbl_usua_relations_tbl_perf FOREIGN KEY (id_perfil) REFERENCES tbl_perfil(id_perfil) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- TOC entry 2029 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2016-06-30 23:51:03
+
+--
+-- PostgreSQL database dump complete
+--
+
