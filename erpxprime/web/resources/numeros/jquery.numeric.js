@@ -230,7 +230,7 @@ $.fn.removeNumeric = function()
 	return this.data("numeric.decimal", null).data("numeric.negative", null).data("numeric.callback", null).unbind("keypress", $.fn.numeric.keypress).unbind("blur", $.fn.numeric.blur);
 }
 
-// Based on code from http://javascript.nwbox.com/cursor_position/ (Diego Perini <dperini@nwbox.com>)
+// Based on code from http://javascript.nwbox.com/cursor_position/ (xedushx Perini <dperini@nwbox.com>)
 $.fn.getSelectionStart = function(o)
 {
 	if (o.createTextRange)

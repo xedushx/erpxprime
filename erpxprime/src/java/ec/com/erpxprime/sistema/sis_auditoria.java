@@ -4,8 +4,14 @@
  */
 package ec.com.erpxprime.sistema;
 
-import ec.xprime.componentes.*;
-import ec.xprime.sistema.sis_soporte;
+import ec.com.erpxprime.framework.componentes.Boton;
+import ec.com.erpxprime.framework.componentes.Calendario;
+import ec.com.erpxprime.framework.componentes.Division;
+import ec.com.erpxprime.framework.componentes.Etiqueta;
+import ec.com.erpxprime.framework.componentes.Hora;
+import ec.com.erpxprime.framework.componentes.PanelTabla;
+import ec.com.erpxprime.framework.componentes.Tabla;
+import ec.com.erpxprime.sistema.aplicacion.Pantalla;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,39 +19,39 @@ import java.util.logging.Logger;
  *
  * @author kruger
  */
-public class sis_auditoria extends sis_pantalla {
+public class sis_auditoria extends Pantalla {
 
     private final static Logger LOGGER = Logger.getLogger(sis_auditoria.class.getName());
-    private pf_tabla tab_auditoria = new pf_tabla();
-    private pf_layout div_division = new pf_layout();
-    private pf_calendario cal_fecha_inicial = new pf_calendario();
-    private pf_calendario cal_fecha_final = new pf_calendario();
-    private pf_hora hor_inicial = new pf_hora();
-    private pf_hora hor_final = new pf_hora();
+    private Tabla tab_auditoria = new Tabla();
+    private Division div_division = new Division();
+    private Calendario cal_fecha_inicial = new Calendario();
+    private Calendario cal_fecha_final = new Calendario();
+    private Hora hor_inicial = new Hora();
+    private Hora hor_final = new Hora();
 
     public sis_auditoria() {
         LOGGER.log(Level.INFO, "sis_auditoria cargando");
         bar_botones.limpiar();
 
-        bar_botones.agregarComponente(new pf_etiqueta("Fecha Inicial :"));
+        bar_botones.agregarComponente(new Etiqueta("Fecha Inicial :"));
         cal_fecha_inicial.setFechaActual();
         bar_botones.agregarComponente(cal_fecha_inicial);
 
-        bar_botones.agregarComponente(new pf_etiqueta("Fecha Final :"));
+        bar_botones.agregarComponente(new Etiqueta("Fecha Final :"));
         cal_fecha_final.setFechaActual();
         bar_botones.agregarComponente(cal_fecha_final);
 
-        bar_botones.agregarComponente(new pf_etiqueta("Desde :"));
-        hor_inicial.setValue(sis_soporte.obtener_instancia_soporte().getHora(sis_soporte.obtener_instancia_soporte().obtener_formato_hora("07:00:00")));
+        bar_botones.agregarComponente(new Etiqueta("Desde :"));
+        hor_inicial.setValue(utilitario.getHora(utilitario.getFormatoHora("07:00:00")));
         bar_botones.agregarComponente(hor_inicial);
 
-        bar_botones.agregarComponente(new pf_etiqueta("Hasta :"));
-        hor_final.setValue(sis_soporte.obtener_instancia_soporte().getHora(sis_soporte.obtener_instancia_soporte().obtener_formato_hora("18:00:00")));
+        bar_botones.agregarComponente(new Etiqueta("Hasta :"));
+        hor_final.setValue(utilitario.getHora(utilitario.getFormatoHora("18:00:00")));
         bar_botones.agregarComponente(hor_final);
 
-        pf_boton bot_filtrar = new pf_boton();
+        Boton bot_filtrar = new Boton();
         bot_filtrar.setValue("Actualizar");
-        bot_filtrar.configurar_ActionListener("actualizarAuditoria");
+        bot_filtrar.setMetodo("actualizarAuditoria");
         bot_filtrar.setIcon("ui-icon-refresh");
         bar_botones.agregarBoton(bot_filtrar);
 
@@ -64,7 +70,7 @@ public class sis_auditoria extends sis_pantalla {
         tab_auditoria.setCampoOrden("id_auditoria desc");
         tab_auditoria.dibujar();
 
-        pf_panel_tabla pat_auditoria = new pf_panel_tabla();
+        PanelTabla pat_auditoria = new PanelTabla();
         pat_auditoria.setId("pat_auditoria");
         tab_auditoria.setHeader("Transacciones realizadas en el sistema");
         pat_auditoria.setPanelTabla(tab_auditoria);
@@ -99,15 +105,15 @@ public class sis_auditoria extends sis_pantalla {
                 && hor_final.getValue() != null) {
 
             str_filtros = " fecha BETWEEN "
-                    + sis_soporte.obtener_instancia_soporte().getFormatoFechaSQL(cal_fecha_inicial.getFecha()) + " AND "
-                    + sis_soporte.obtener_instancia_soporte().getFormatoFechaSQL(cal_fecha_final.getFecha());
+                    + utilitario.getFormatoFechaSQL(cal_fecha_inicial.getFecha()) + " AND "
+                    + utilitario.getFormatoFechaSQL(cal_fecha_final.getFecha());
             str_filtros += " AND hora BETWEEN "
-                    + sis_soporte.obtener_instancia_soporte().getFormatoHoraSQL(hor_inicial.getHora())
+                    + utilitario.getFormatoHoraSQL(hor_inicial.getHora())
                     + " AND "
-                    + sis_soporte.obtener_instancia_soporte().getFormatoHoraSQL(hor_final.getHora());
+                    + utilitario.getFormatoHoraSQL(hor_final.getHora());
 
         } else {
-            sis_soporte.obtener_instancia_soporte().agregarMensajeInfo("Filtros no válidos",
+            utilitario.agregarMensajeInfo("Filtros no válidos",
                     "Debe ingresar los fitros de fechas y horas");
         }
         return str_filtros;
@@ -117,15 +123,15 @@ public class sis_auditoria extends sis_pantalla {
         if (!getFiltrosAuditoria().isEmpty()) {
             tab_auditoria.setCondicion(getFiltrosAuditoria());
             tab_auditoria.ejecutarSql();
-            sis_soporte.obtener_instancia_soporte().addUpdate("div_division");
+            utilitario.addUpdate("div_division");
         }
     }
 
-    public pf_tabla getTab_auditoria() {
+    public Tabla getTab_auditoria() {
         return tab_auditoria;
     }
 
-    public void setTab_auditoria(pf_tabla tab_auditoria) {
+    public void setTab_auditoria(Tabla tab_auditoria) {
         this.tab_auditoria = tab_auditoria;
     }
 }

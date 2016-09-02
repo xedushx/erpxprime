@@ -4,6 +4,8 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>jdbc/erpxprime</jta-data-source>
     <validation-mode>NONE</validation-mode>
-    <properties/>
+    <properties>
+      <property name="eclipselink.logging.level" value="SEVERE"/>
+    </properties>
   </persistence-unit>
 </persistence>

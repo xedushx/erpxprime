@@ -4,17 +4,18 @@
  */
 package ec.com.erpxprime.sistema;
 
-import ec.xprime.componentes.pf_layout;
-import ec.xprime.componentes.pf_panel_tabla;
-import ec.xprime.componentes.pf_tabla;
+import ec.com.erpxprime.framework.componentes.Division;
+import ec.com.erpxprime.framework.componentes.PanelTabla;
+import ec.com.erpxprime.framework.componentes.Tabla;
+import ec.com.erpxprime.sistema.aplicacion.Pantalla;
 
 /**
  *
  * @author xEdushx
  */
-public class sis_empresa extends sis_pantalla{
+public class sis_empresa extends Pantalla{
 
-    private pf_tabla tab_tabla = new pf_tabla();
+    private Tabla tab_tabla = new Tabla();
 
     public sis_empresa() {
         tab_tabla.setId("tab_tabla");
@@ -29,9 +30,9 @@ public class sis_empresa extends sis_pantalla{
         tab_tabla.getColumna("logo_empr").setUpload("logos");
         tab_tabla.getColumna("logo_empr").setImagen("100", "200");
         tab_tabla.dibujar();
-        pf_panel_tabla pat_panel = new pf_panel_tabla();
+        PanelTabla pat_panel = new PanelTabla();
         pat_panel.setPanelTabla(tab_tabla);
-        pf_layout div_division = new pf_layout();
+        Division div_division = new Division();
         div_division.setId("div_division");
         div_division.dividir1(pat_panel);
         agregarComponente(div_division);
@@ -53,11 +54,11 @@ public class sis_empresa extends sis_pantalla{
         tab_tabla.eliminar();
     }
 
-    public pf_tabla getTab_tabla() {
+    public Tabla getTab_tabla() {
         return tab_tabla;
     }
 
-    public void setTab_tabla(pf_tabla tab_tabla) {
+    public void setTab_tabla(Tabla tab_tabla) {
         this.tab_tabla = tab_tabla;
     }
     

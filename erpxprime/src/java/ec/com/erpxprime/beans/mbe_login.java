@@ -4,9 +4,11 @@
  */
 package ec.com.erpxprime.beans;
 
-import ec.xprime.componentes.*;
-import ec.xprime.persistencia.cla_conexion;
-import ec.xprime.sistema.sis_soporte;
+import ec.com.erpxprime.framework.componentes.Boton;
+import ec.com.erpxprime.framework.componentes.Confirmar;
+import ec.com.erpxprime.framework.componentes.ErrorSQL;
+import ec.com.erpxprime.persistencia.Conexion;
+import ec.com.erpxprime.sistema.aplicacion.Utilitario;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +19,13 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlForm;
 import javax.faces.component.html.HtmlInputHidden;
+import javax.faces.component.html.HtmlInputSecret;
+import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlOutputText;
+import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.primefaces.component.blockui.BlockUI;
-import org.primefaces.component.panel.Panel;
 
 /**
  *
@@ -33,102 +38,167 @@ public class mbe_login implements Serializable {
     private static final long serialVersionUID = 1L;
     private final static Logger LOGGER = Logger.getLogger(mbe_login.class.getName());
     private HtmlForm formulario = new HtmlForm();
-    private pf_entrada_texto tex_usuario = new pf_entrada_texto();
-    private pf_clave pas_clave = new pf_clave();
-    private pf_error_sql error_sql = new pf_error_sql();
+    private ErrorSQL error_sql = new ErrorSQL();
     private HtmlInputHidden alto = new HtmlInputHidden(); //Alto Browser
     private HtmlInputHidden ancho = new HtmlInputHidden();//Ancho Browser
     private List lis_detalle_modulos = new ArrayList();
+
+    private final HtmlInputText tex_usuario = new HtmlInputText();
+    private final HtmlInputSecret pas_clave = new HtmlInputSecret();
+    private final Utilitario utilitario = new Utilitario();
 
     /**
      * Constructor
      */
     public mbe_login() {
-        crearDetalleModulos();
-        formulario.setTransient(true);
-        pf_grid gri_matriz = new pf_grid();
-        gri_matriz.setColumns(2);
-        gri_matriz.setWidth("100%");
-        Panel pan_panel = new Panel();
-        pan_panel.setId("pan_panel");
-        pan_panel.setStyle("width: 350px;");
-        pan_panel.setHeader("Ingresar al Sistema");
 
+        formulario.setTransient(true);
+        
+        HtmlPanelGroup pg_usuario = new HtmlPanelGroup();
+        pg_usuario.setLayout("block");
+        pg_usuario.setStyleClass("form-group has-feedback");
         tex_usuario.setId("tex_usuario");
         tex_usuario.setRequired(true);
+        tex_usuario.getPassThroughAttributes().put("placeholder", "Usuario");
         tex_usuario.setRequiredMessage("Debe ingresar el usuario");
-        tex_usuario.setStyle("width: 99%;");
-        gri_matriz.getChildren().add(new pf_etiqueta("USUARIO : "));
-        gri_matriz.getChildren().add(tex_usuario);
-        gri_matriz.getChildren().add(new pf_etiqueta("CLAVE :"));
-        pas_clave.setFeedback(false);
+        tex_usuario.setAutocomplete("off");
+        tex_usuario.setStyleClass("form-control");
+        HtmlOutputText eti_icono_usuario = new HtmlOutputText();
+        eti_icono_usuario.setStyleClass("glyphicon glyphicon-user form-control-feedback");
+        pg_usuario.getChildren().add(tex_usuario);
+        pg_usuario.getChildren().add(eti_icono_usuario);
+
+        HtmlPanelGroup pg_clave = new HtmlPanelGroup();
+        pg_clave.setLayout("block");
+        pg_clave.setStyleClass("form-group has-feedback");
+
         pas_clave.setRequired(true);
+        pas_clave.setId("pas_clave");
         pas_clave.setRequiredMessage("Debe ingresar la clave");
-        pas_clave.setStyle("width: 99%;");
-        gri_matriz.getChildren().add(pas_clave);
-        pf_boton bot_login = new pf_boton();
+        pas_clave.getPassThroughAttributes().put("placeholder", "Clave");
+        pas_clave.setStyleClass("form-control");
+        HtmlOutputText eti_icono_clave = new HtmlOutputText();
+        eti_icono_clave.setStyleClass("glyphicon glyphicon-lock form-control-feedback");
+        pg_clave.getChildren().add(pas_clave);
+        pg_clave.getChildren().add(eti_icono_clave);
+
+        HtmlPanelGroup pg_boton = new HtmlPanelGroup();
+        pg_boton.setLayout("block");
+        pg_boton.setStyleClass("row");
+
+        Boton bot_login = new Boton();
         bot_login.setId("bot_login");
-        bot_login.setValue("Aceptar");
-        bot_login.setIcon("ui-icon-locked");
+        bot_login.setValue("Iniciar Sesión");
+        bot_login.setStyleClass("btn btn-primary btn-block btn-flat");
         bot_login.setMetodoRuta("mbe_login.ingresar");
-        bot_login.setOnclick("var na = $(window).height();"
-                + " document.getElementById('formulario:alto').value=na; "
-                + " var ancho = $(window).width();"
-                + " document.getElementById('formulario:ancho').value=ancho;");
-        gri_matriz.setFooter(bot_login);
-        pf_foco foc_foco = new pf_foco();
-        foc_foco.setFor("tex_usuario");
-        formulario.getChildren().add(foc_foco);
-        pf_grid gri_login = new pf_grid();
-        gri_login.setColumns(2);
-        pf_imagen ima_llave = new pf_imagen();
-        ima_llave.setValue("imagenes/im_llave.png");
-        gri_login.setWidth("100%");
-        gri_login.getChildren().add(ima_llave);
-        gri_login.getChildren().add(gri_matriz);
-        pan_panel.getChildren().add(gri_login);
-        pan_panel.setTransient(true);
+        bot_login.setOnclick("dimiensionesNavegador()");
+
+        pg_boton.getChildren().add(bot_login);
+
         BlockUI blo_panel = new BlockUI();
-        blo_panel.setBlock("pan_panel");
+        blo_panel.setBlock("formulario:bot_login");
         blo_panel.setTrigger("bot_login");
         formulario.getChildren().add(blo_panel);
         error_sql.setId("error_sql");
-        error_sql.setMetodoAceptar("mbe_login.cerrarSql");
+        error_sql.setMetodoAceptar("pre_login.cerrarSql");
         formulario.getChildren().add(error_sql);
-        formulario.getChildren().add(pan_panel);
-        alto.setId("alto");
-        formulario.getChildren().add(alto);
-        ancho.setId("ancho");
-        formulario.getChildren().add(ancho);
-        
+        formulario.getChildren().add(pg_usuario);
+        formulario.getChildren().add(pg_clave);
+        formulario.getChildren().add(pg_boton);
+
+        HtmlInputHidden hih_alto = new HtmlInputHidden(); //Alto Browser
+        HtmlInputHidden hih_ancho = new HtmlInputHidden();//Ancho Browser     
+        hih_alto.setId("alto");
+        formulario.getChildren().add(hih_alto);
+        hih_ancho.setId("ancho");
+        formulario.getChildren().add(hih_ancho);
+
+//        crearDetalleModulos();
+//        formulario.setTransient(true);
+//        pf_grid gri_matriz = new pf_grid();
+//        gri_matriz.setColumns(2);
+//        gri_matriz.setWidth("100%");
+//        Panel pan_panel = new Panel();
+//        pan_panel.setId("pan_panel");
+//        pan_panel.setStyle("width: 350px;");
+//        pan_panel.setHeader("Ingresar al Sistema");
+//
+//        tex_usuario.setId("tex_usuario");
+//        tex_usuario.setRequired(true);
+//        tex_usuario.setRequiredMessage("Debe ingresar el usuario");
+//        tex_usuario.setStyle("width: 99%;");
+//        gri_matriz.getChildren().add(new pf_etiqueta("USUARIO : "));
+//        gri_matriz.getChildren().add(tex_usuario);
+//        gri_matriz.getChildren().add(new pf_etiqueta("CLAVE :"));
+//        pas_clave.setFeedback(false);
+//        pas_clave.setRequired(true);
+//        pas_clave.setRequiredMessage("Debe ingresar la clave");
+//        pas_clave.setStyle("width: 99%;");
+//        gri_matriz.getChildren().add(pas_clave);
+//        pf_boton bot_login = new pf_boton();
+//        bot_login.setId("bot_login");
+//        bot_login.setValue("Aceptar");
+//        bot_login.setIcon("ui-icon-locked");
+//        bot_login.setMetodoRuta("mbe_login.ingresar");
+//        bot_login.setOnclick("var na = $(window).height();"
+//                + " document.getElementById('formulario:alto').value=na; "
+//                + " var ancho = $(window).width();"
+//                + " document.getElementById('formulario:ancho').value=ancho;");
+//        gri_matriz.setFooter(bot_login);
+//        pf_foco foc_foco = new pf_foco();
+//        foc_foco.setFor("tex_usuario");
+//        formulario.getChildren().add(foc_foco);
+//        pf_grid gri_login = new pf_grid();
+//        gri_login.setColumns(2);
+//        pf_imagen ima_llave = new pf_imagen();
+//        ima_llave.setValue("imagenes/im_llave.png");
+//        gri_login.setWidth("100%");
+//        gri_login.getChildren().add(ima_llave);
+//        gri_login.getChildren().add(gri_matriz);
+//        pan_panel.getChildren().add(gri_login);
+//        pan_panel.setTransient(true);
+//        BlockUI blo_panel = new BlockUI();
+//        blo_panel.setBlock("pan_panel");
+//        blo_panel.setTrigger("bot_login");
+//        formulario.getChildren().add(blo_panel);
+//        error_sql.setId("error_sql");
+//        error_sql.setMetodoAceptar("mbe_login.cerrarSql");
+//        formulario.getChildren().add(error_sql);
+//        formulario.getChildren().add(pan_panel);
+//        alto.setId("alto");
+//        formulario.getChildren().add(alto);
+//        ancho.setId("ancho");
+//        formulario.getChildren().add(ancho);
+
     }
 
     public void ingresar() {
-        cla_conexion conexion = sis_soporte.obtener_instancia_soporte().obtener_conexion();
+        Conexion conexion = utilitario.getConexion();
         if (conexion == null) {
-            conexion = new cla_conexion();
-            String str_recursojdbc = sis_soporte.obtener_instancia_soporte().getPropiedad("recursojdbc");
+            conexion = new Conexion();
+            String str_recursojdbc = utilitario.getPropiedad("recursojdbc");
             conexion.setUnidad_persistencia(str_recursojdbc);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("CONEXION", conexion);
-            //sis_soporte.obtener_instancia_soporte().crear_variable("empresa", sis_soporte.obtener_instancia_soporte().getPropiedad("ide_empr"));
+            //utilitario.crearVariable("empresa", utilitario.getPropiedad("ide_empr"));
         }
-        
+
         String lstr_usuario = tex_usuario.getValue().toString().trim();
         String lstr_clave = pas_clave.getValue().toString().trim();
-        String lstr_empresa = sis_soporte.obtener_instancia_soporte().getPropiedad("ide_empr");
-        
-        if (lstr_usuario.isEmpty()){
-            sis_soporte.obtener_instancia_soporte().agregar_mensaje_error("Ingrese Nombre de Usuario", "");
-        }else if (lstr_clave.isEmpty()){
-            sis_soporte.obtener_instancia_soporte().agregar_mensaje_error("Ingrese Clave", "");
-        }else if (lstr_empresa.isEmpty() || lstr_empresa.equalsIgnoreCase("null")) {
-            sis_soporte.obtener_instancia_soporte().agregar_mensaje_error("Seleccione la Empresa", "");
+        String lstr_empresa = utilitario.getPropiedad("ide_empr");
+
+        if (lstr_usuario.isEmpty()) {
+            utilitario.agregarMensajeError("Ingrese Nombre de Usuario", "");
+        } else if (lstr_clave.isEmpty()) {
+            utilitario.agregarMensajeError("Ingrese Clave", "");
+        } else if (lstr_empresa.isEmpty() || lstr_empresa.equalsIgnoreCase("null")) {
+            utilitario.agregarMensajeError("Seleccione la Empresa", "");
         } else {
-            List lis_consulta = conexion.consultar("SELECT usu.id_usuario,usu.id_perfil,usu.tema,emp.id_empresa "
-                    + "FROM tbl_usuario usu, tbl_empresa emp "
+            List lis_consulta = conexion.consultar("SELECT usu.id_usuario,usu.id_perfil,usu.tema,emp.id_empresa,emp.nombre,per.nombre "
+                    + "FROM tbl_usuario usu, tbl_empresa emp, tbl_perfil per "
                     + "WHERE usu.nombre='" + lstr_usuario + "' AND "
                     + "usu.clave=MD5('" + lstr_clave + "') AND "
                     + "emp.id_empresa = usu.id_empresa AND "
+                    + "usu.id_perfil = per.id_perfil AND "
                     + "usu.estado_sesion ='true'");
             if (lis_consulta.size() > 0) {
                 Object fila[] = (Object[]) lis_consulta.get(0);
@@ -136,57 +206,67 @@ public class mbe_login implements Serializable {
                 int lint_perfil = (Integer) fila[1];
                 String lstr_tema = (String) fila[2];
                 lstr_empresa = String.valueOf((Integer) fila[3]);
-                
-                sis_soporte.obtener_instancia_soporte().crear_variable("id_usuario", lint_usuario + "");
-                sis_soporte.obtener_instancia_soporte().crear_variable("id_perfil", lint_perfil + "");
-                sis_soporte.obtener_instancia_soporte().crear_variable("tema", lstr_tema);
-                sis_soporte.obtener_instancia_soporte().crear_variable("nombre_usuario", lstr_usuario + "");
-                sis_soporte.obtener_instancia_soporte().crear_variable("empresa", lstr_empresa);
-                
+                String lstr_nombre_empresa = (String) fila[4];
+                String lstr_nombre_perfil = (String) fila[5];
+
+                utilitario.crearVariable("id_usuario", lint_usuario + "");
+                utilitario.crearVariable("id_perfil", lint_perfil + "");
+                utilitario.crearVariable("tema", lstr_tema);
+                utilitario.crearVariable("nombre_usuario", lstr_usuario + "");
+                utilitario.crearVariable("empresa", lstr_empresa);
+                utilitario.crearVariable("nombre_empresa", lstr_nombre_empresa + "");
+                utilitario.crearVariable("nombre_perfil", lstr_nombre_perfil + "");
+                utilitario.crearVariable("AUDITORIA_OPCI", "FALSE");
+                utilitario.crearVariable("PERM_UTIL_PERF", "FALSE");
+
                 try {
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("mbe_index");
-                    FacesContext.getCurrentInstance().getExternalContext().redirect("index.jsf");
+//                    FacesContext.getCurrentInstance().getExternalContext().redirect("index.jsf");
+                    String str_url = utilitario.getURL() + "/index.jsf";
+                    utilitario.ejecutarJavaScript("abrirPopUp('" + str_url + "')");
                 } catch (Exception e) {
                     LOGGER.log(Level.SEVERE, e.getMessage());
                 }
             } else {
-                sis_soporte.obtener_instancia_soporte().agregarMensajeError("El nombre del usuario o la clave son incorrectos", "");
-                sis_soporte.obtener_instancia_soporte().addUpdate("pan_panel");
+                utilitario.agregarMensajeError("El nombre del usuario o la clave son incorrectos", "");
+                utilitario.addUpdate("pan_panel");
             }
         }
-        
+
     }
-    
+
     public void caducoSession() {
         try {
-            if (sis_soporte.obtener_instancia_soporte().obtener_conexion() != null) {               
-                sis_soporte.obtener_instancia_soporte().obtener_conexion().desconectar();
+            if (utilitario.getConexion() != null) {
+//                utilitario.getConexion().desconectar(false);
             }
-            sis_soporte.obtener_instancia_soporte().cerrarSesion();
+            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+            utilitario.cerrarSesion();
         } catch (Exception ex) {
         }
     }
 
     public void salir() {
         try {
-            if (sis_soporte.obtener_instancia_soporte().obtener_conexion() != null) {
-                sis_soporte.obtener_instancia_soporte().obtener_conexion().desconectar();
+            if (utilitario.getConexion() != null) {
+//                utilitario.getConexion().desconectar(false);
             }
-            sis_soporte.obtener_instancia_soporte().cerrarSesion();
-            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-            FacesContext.getCurrentInstance().getExternalContext().redirect("login.jsf");
-//            sis_soporte.obtener_instancia_soporte().ejecutarJavaScript("location.href='about:blank';window.close();");
+            utilitario.cerrarSesion();
+            utilitario.ejecutarJavaScript("location.href='about:blank';window.close();");
+//            FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+//            FacesContext.getCurrentInstance().getExternalContext().redirect("login.jsf");
+//            utilitario.ejecutarJavaScript("location.href='about:blank';window.close();");
         } catch (Exception ex) {
         }
     }
 
     public String getTema() {
-        String tema = sis_soporte.obtener_instancia_soporte().obtener_variable("tema");
+        String tema = utilitario.getVariable("tema");
         if (tema == null || tema.isEmpty() || tema.equals("null")) {
-            if (sis_soporte.obtener_instancia_soporte().getPropiedad("temaInicial") != null) {
-                return sis_soporte.obtener_instancia_soporte().getPropiedad("temaInicial");
+            if (utilitario.getPropiedad("temaInicial") != null) {
+                return utilitario.getPropiedad("temaInicial");
             }
-            return "sam";
+            return "excite-bike";
         } else {
             return tema;
         }
@@ -208,21 +288,7 @@ public class mbe_login implements Serializable {
         lis_detalle_modulos.add(obj6);
         lis_detalle_modulos.add(obj7);
     }
-    
-    public void cerrarConfirmar(ActionEvent evt) {
-        UIComponent com_padre = evt.getComponent();
-        while (com_padre != null) {
-            com_padre = com_padre.getParent();
-            String str_tipo = com_padre.getRendererType();
-            if (str_tipo != null && str_tipo.equals("org.primefaces.component.ConfirmDialogRenderer")) {
-                break;
-            }
-        }
-        if (com_padre != null) {
-            ((pf_confirmar) com_padre).setVisible(false);
-        }
-    }
-    
+
     public List getLis_detalle_modulos() {
         return lis_detalle_modulos;
     }
@@ -230,8 +296,8 @@ public class mbe_login implements Serializable {
     public void setLis_detalle_modulos(List lis_detalle_modulos) {
         this.lis_detalle_modulos = lis_detalle_modulos;
     }
-    
-    public pf_error_sql getError_sql() {
+
+    public ErrorSQL getError_sql() {
         return error_sql;
     }
 
@@ -239,7 +305,7 @@ public class mbe_login implements Serializable {
         error_sql.setVisible(false);
     }
 
-    public void setError_sql(pf_error_sql error_sql) {
+    public void setError_sql(ErrorSQL error_sql) {
         this.error_sql = error_sql;
     }
 
@@ -250,5 +316,5 @@ public class mbe_login implements Serializable {
     public void setFormulario(HtmlForm formulario) {
         this.formulario = formulario;
     }
-    
+
 }
