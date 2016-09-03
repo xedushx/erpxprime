@@ -152,6 +152,7 @@ public class sis_correo extends Pantalla {
             EnviarCorreo correo = new EnviarCorreo();
             String str_msj = correo.enviar(tex_destinatario.getValue().toString(), tex_asunto.getValue().toString(), edi_texto.getValue().toString(), upl_adjuntos.getArchivos());
             if (!str_msj.isEmpty()) {
+                utilitario.agregarMensajeInfo("Mensajes no enviados", str_msj);
             } else {
                 utilitario.agregarMensajeInfo("Mensajes generados", str_msj);
             }

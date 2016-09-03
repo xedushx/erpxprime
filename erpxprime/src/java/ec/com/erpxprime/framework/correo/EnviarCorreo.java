@@ -127,13 +127,13 @@ public class EnviarCorreo {
     public String enviar(String destinatario, String asunto, String mensaje, List<File> adjuntos) {
         StringBuilder msj = new StringBuilder();
         String[] destinatarios = destinatario.split(";");
-        List<String> mensajes = new ArrayList<>();
+        StringBuilder mensajes = new StringBuilder();
         
         for (String destinatario1 : destinatarios) {
-            mensajes.add(agregarCorreo(destinatario1, asunto, mensaje, adjuntos));            
+            mensajes.append(agregarCorreo(destinatario1, asunto, mensaje, adjuntos));            
         }
         
-        if (mensajes.isEmpty()) {
+        if (mensajes.toString() != null && mensajes.toString().isEmpty() ) {
             msj.append(enviarTodos());
             listaMensajes.clear();
         }
