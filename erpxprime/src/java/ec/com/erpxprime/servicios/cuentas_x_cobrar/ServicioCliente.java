@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  *
- * @author dfjacome
+ * @author xedushx
  */
 @Stateless
 public class ServicioCliente extends ServicioBase {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, xedushx Fernando Jácome. All rights reserved.
+ * Copyright (c) 2013, xedushx . All rights reserved.
  */
 package ec.com.erpxprime.framework.componentes.graficos;
 
@@ -17,7 +17,7 @@ import org.primefaces.model.chart.ChartSeries;
 
 /**
  *
- * @author xedushx Fernando Jácome
+ * @author xedushx 
  */
 public class GraficoCartesiano extends Panel {
 

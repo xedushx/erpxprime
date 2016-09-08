@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" uuid="657d7e5a-b9e6-4f43-ab64-d0061135e46a">
+	<property name="ireport.zoom" value="1.771561000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_empresa" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="id_usuario" class="java.lang.Integer"/>
+	<parameter name="titulo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from tbl_empresa empresa
+left join tbl_usuario usuario on USUARIO.id_empresa=empresa.id_empresa
+where empresa.id_empresa=$P{id_empresa}
+and usuario.id_usuario=$P{id_usuario}]]>
+	</queryString>
+	<field name="id_empresa" class="java.lang.Integer"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="telefono" class="java.lang.String"/>
+	<field name="representante" class="java.lang.String"/>
+	<field name="direccion" class="java.lang.String"/>
+	<field name="logo_empr" class="java.lang.String"/>
+	<field name="emp_estado" class="java.lang.Boolean"/>
+	<field name="ruc_empresa" class="java.lang.String"/>
+	<field name="id_usuario" class="java.lang.Integer"/>
+	<field name="id_perfil" class="java.lang.Integer"/>
+	<field name="estado_sesion" class="java.lang.Boolean"/>
+	<field name="cedula" class="java.lang.String"/>
+	<field name="nombre_completo" class="java.lang.String"/>
+	<field name="correo" class="java.lang.String"/>
+	<field name="correo2" class="java.lang.String"/>
+	<field name="clave" class="java.lang.String"/>
+	<field name="tema" class="java.lang.String"/>
+	<field name="fecha_registro" class="java.lang.String"/>
+	<field name="ruta_foto" class="java.lang.String"/>
+	<title>
+		<band height="80" splitType="Stretch">
+			<image onErrorType="Blank">
+				<reportElement x="4" y="11" width="136" height="44" uuid="d1cbe5c6-30e6-481e-aa20-19f7e434c340"/>
+				<imageExpression><![CDATA[$F{logo_empr}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="0" y="53" width="140" height="10" uuid="d68b8ab5-589f-4cd7-8924-569307f79b66"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="63" width="140" height="10" uuid="7e838733-f84a-4d5f-8f26-056acdacc906"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Teléfono: "+$F{telefono}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="11" width="552" height="62" uuid="65239882-21c6-4dfd-b01e-2e862b9bc656"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true" pdfFontName="Courier-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{titulo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="h:mm a" isBlankWhenNull="true">
+				<reportElement x="722" y="35" width="80" height="13" uuid="4621b5e4-ea0f-443e-855f-7496b64e0042"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="722" y="48" width="80" height="13" uuid="dc0c1260-8e03-41b2-a2b7-611093772efb"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_completo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="692" y="35" width="54" height="13" uuid="a609083a-74af-4eed-a22b-807530fd6562"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Hora:]]></text>
+			</staticText>
+			<textField pattern="yyyy/MM/dd" isBlankWhenNull="true">
+				<reportElement x="722" y="22" width="80" height="13" uuid="8f5064e4-ff19-4d33-9d57-2a2b2cc94f1a"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="692" y="22" width="54" height="13" uuid="daf99e65-02c0-459e-a736-894b984e2831"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="692" y="48" width="54" height="13" uuid="00ed2191-479f-42e4-94dc-4b4855129729"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Usua:]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

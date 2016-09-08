@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  *
- * @author xedushxFERNANDOJACOMEG
+ * @author xedushx
  */
 public class MenuLista extends org.primefaces.component.menu.Menu {
     

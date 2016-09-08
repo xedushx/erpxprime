@@ -13,7 +13,7 @@ import ec.com.erpxprime.sistema.aplicacion.Utilitario;
 
 /**
  *
- * @author xedushx.jacome
+ * @author xedushx
  */
 @Stateless
 public class ServicioComprobanteContabilidad {
@@ -23,15 +23,15 @@ public class ServicioComprobanteContabilidad {
     private final Utilitario utilitario = new Utilitario();
 
     public String getSqlTiposComprobante() {
-        return "select ide_cntcm,nombre_cntcm from con_tipo_comproba where ide_empr=" + utilitario.getVariable("ide_empr");
+        return "select ide_cntcm,nombre_cntcm from con_tipo_comproba where id_empresa=" + utilitario.getVariable("empresa");
     }
 
     public String getSqlEstadosComprobante() {
-        return "select ide_cneco,nombre_cneco from con_estado_compro where ide_empr=" + utilitario.getVariable("ide_empr");
+        return "select ide_cneco,nombre_cneco from con_estado_compro where id_empresa=" + utilitario.getVariable("empresa");
     }
 
     public String getSqlLugarAplica() {
-        return "select ide_cnlap,nombre_cnlap from con_lugar_aplicac where ide_empr=" + utilitario.getVariable("ide_empr");
+        return "select ide_cnlap,nombre_cnlap from con_lugar_aplicac where id_empresa=" + utilitario.getVariable("empresa");
 
     }
 

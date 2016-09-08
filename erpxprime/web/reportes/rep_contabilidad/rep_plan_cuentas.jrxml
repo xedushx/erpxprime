@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6494e007-7e91-409c-ab5c-a6cc72bd8fbf">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="ide_cncpc" class="java.lang.Long"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String">
+		<defaultValueExpression><![CDATA["C://Users/epacheco/Documents/personal/ERPXPRIME_2016/erpxprime/erpxprime/web"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="id_empresa" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT dpc.codig_recur_cndpc, dpc.nombre_cndpc FROM con_det_plan_cuen dpc where ide_cncpc=$P{ide_cncpc}
+ORDER BY dpc.codig_recur_cndpc]]>
+	</queryString>
+	<field name="codig_recur_cndpc" class="java.lang.String"/>
+	<field name="nombre_cndpc" class="java.lang.String"/>
+	<title>
+		<band height="98" splitType="Stretch">
+			<staticText>
+				<reportElement x="223" y="0" width="332" height="85" uuid="38f0259e-d32f-442a-afaa-f995d0e62a1a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[PLAN DE CUENTAS]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="99" y="85" width="124" height="13" uuid="2e2fbf9c-5ccf-4af5-8fd3-d1c50c1bc644"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="85" width="100" height="13" uuid="c060d1f5-54e1-426b-9613-98e5849720ac"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Fecha de impresión: ]]></text>
+			</staticText>
+			<subreport isUsingCache="false">
+				<reportElement x="0" y="0" width="200" height="85" uuid="5402125a-30bf-4eb0-9d0b-ef3ba40ac23c"/>
+				<subreportParameter name="id_empresa">
+					<subreportParameterExpression><![CDATA[$P{id_empresa}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="logo">
+					<subreportParameterExpression><![CDATA[$P{logo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "/reportes/rep_sistema/rep_cabecera.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="12" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="223" height="12" uuid="59f5b4ee-be93-4758-9600-42e5e14e3906"/>
+				<box leftPadding="3"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[CODIGO CUENTA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="222" y="0" width="332" height="12" uuid="28eb85b9-1838-4242-baa0-a516b975440d"/>
+				<box leftPadding="3"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="9" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE CUENTA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="223" y="0" width="331" height="12" uuid="65ada7bd-3a49-441b-95bb-ce579dfa8d07"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_cndpc}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="223" height="12" uuid="1b815c77-8f66-4565-8d25-1ee41625b12f"/>
+				<box leftPadding="3"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codig_recur_cndpc}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="13">
+			<textField>
+				<reportElement x="452" y="0" width="64" height="13" uuid="a7810345-f981-471e-84ce-c665718c1cf6"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="515" y="0" width="40" height="13" uuid="57bffeba-668a-4165-8ae3-36c89a646e61"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

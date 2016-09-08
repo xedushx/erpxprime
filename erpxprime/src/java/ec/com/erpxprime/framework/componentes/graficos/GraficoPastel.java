@@ -12,7 +12,7 @@ import org.primefaces.model.chart.PieChartModel;
 
 /**
  *
- * @author dfjacome
+ * @author xedushx
  */
 public class GraficoPastel extends PieChart {
     

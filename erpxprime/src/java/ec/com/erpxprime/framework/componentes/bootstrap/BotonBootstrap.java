@@ -10,7 +10,7 @@ import javax.faces.component.html.HtmlOutputText;
 
 /**
  *
- * @author xedushxFERNANDOJACOMEG
+ * @author xedushx
  */
 public class BotonBootstrap extends Link {
 

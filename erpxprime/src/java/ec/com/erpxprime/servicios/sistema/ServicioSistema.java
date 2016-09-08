@@ -16,7 +16,7 @@ import ec.com.erpxprime.sistema.aplicacion.Utilitario;
 
 /**
  *
- * @author xedushxFERNANDOJACOMEG
+ * @author xedushx
  */
 @Stateless
 
@@ -30,17 +30,17 @@ public class ServicioSistema {
      * @return
      */
     public TablaGenerica getEmpresa() {
-        return getEmpresa(utilitario.getVariable("IDE_EMPR"));
+        return getEmpresa(utilitario.getVariable("empresa"));
     }
 
     /**
      * Retorna Datos de una Empresa
      *
-     * @param ide_empr
+     * @param id_empresa
      * @return
      */
-    public TablaGenerica getEmpresa(String ide_empr) {
-        return utilitario.consultar("SELECT * from sis_empresa where ide_empr=" + ide_empr);
+    public TablaGenerica getEmpresa(String id_empresa) {
+        return utilitario.consultar("SELECT * from tbl_empresa where id_empresa=" + id_empresa);
     }
 
     /**
@@ -58,9 +58,12 @@ public class ServicioSistema {
                     String mimeType = URLConnection.guessContentTypeFromStream(myInputStream);
                     stream = new DefaultStreamedContent(myInputStream, mimeType);
                     myInputStream.close();
+                } catch (Exception e) {
+                    System.out.println("Error {}" + e);
                 }
             }
-        } catch (Exception e) {            
+        } catch (Exception e) {
+            System.out.println("Error {}" + e);
         }
         return stream;
     }
@@ -85,30 +88,30 @@ public class ServicioSistema {
     }
 
     public TablaGenerica getUsuario() {
-        return getUsuario(utilitario.getVariable("IDE_USUA"));
+        return getUsuario(utilitario.getVariable("id_usuario"));
     }
 
-    public TablaGenerica getUsuario(String ide_usua) {
-        return utilitario.consultar("SELECT * from sis_usuario where ide_usua=" + ide_usua);
+    public TablaGenerica getUsuario(String id_usuario) {
+        return utilitario.consultar("SELECT * from tbl_usuario where id_usuario=" + id_usuario);
     }
 
-    public TablaGenerica getPerfil(String ide_perf) {
-        return utilitario.consultar("SELECT * from sis_perfil where ide_perf=" + ide_perf);
+    public TablaGenerica getPerfil(String id_perfil) {
+        return utilitario.consultar("SELECT * from tbl_perfil where id_perfil=" + id_perfil);
     }
 
     public TablaGenerica getPerfil() {
-        return getPerfil(utilitario.getVariable("IDE_PERF"));
+        return getPerfil(utilitario.getVariable("id_perfil"));
     }
 
     public TablaGenerica getOpcionPantalla() {
         return utilitario.consultar("SELECT PAQUETE_OPCI,TIPO_OPCI,AUDITORIA_OPCI,MANUAL_OPCI FROM SIS_OPCION WHERE IDE_OPCI=" + utilitario.getVariable("IDE_OPCI"));
     }
 
-    public String getSqlPantallasPerfil(String ide_perf) {
+    public String getSqlPantallasPerfil(String id_perfil) {
         return "SELECT a.IDE_OPCI,NOM_OPCI\n"
-                + "FROM SIS_OPCION a ,SIS_PERFIL_OPCION b\n"
+                + "FROM SIS_OPCION a ,tbl_perfil_OPCION b\n"
                 + "WHERE a.IDE_OPCI=b.IDE_OPCI \n"
-                + "AND b.IDE_PERF=" + ide_perf + " \n"
+                + "AND b.id_perfil=" + id_perfil + " \n"
                 + "and tipo_opci is not null and paquete_opci is not null\n"
                 + "ORDER BY NOM_OPCI";
     }

@@ -11,7 +11,7 @@ import org.primefaces.component.submenu.Submenu;
 
 /**
  *
- * @author dfjacome
+ * @author xedushx
  */
 public class MenuPanel extends Division {
     

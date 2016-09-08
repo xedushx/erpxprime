@@ -89,7 +89,7 @@ public class sis_correo extends Pantalla {
         gri_correo.getChildren().add(new Etiqueta("Adjuntar"));
         upl_adjuntos.setMultiple(true);
         upl_adjuntos.setId("upl_adjuntos");
-        upl_adjuntos.setUpload("upload/correo");
+        upl_adjuntos.setUpload("correo");
         gri_correo.getChildren().add(upl_adjuntos);
         edi_texto.setId("edi_texto");
         edi_texto.setWidth(Integer.parseInt(utilitario.getVariable("ANCHO")) - 20);

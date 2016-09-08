@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, xedushx Fernando Jácome. All rights reserved.
+ * Copyright (c) 2013, xedushx . All rights reserved.
  */
 package ec.com.erpxprime.framework.aplicacion;
 
@@ -16,7 +16,7 @@ import java.util.Map;
 
 /**
  *
- * @author xedushx Fernando Jácome
+ * @author xedushx 
  */
 public class TablaGenerica {
 

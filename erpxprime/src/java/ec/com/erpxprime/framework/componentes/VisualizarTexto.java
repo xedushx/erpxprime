@@ -14,7 +14,7 @@ import org.primefaces.component.editor.Editor;
 
 /**
  *
- * @author xedushxFERNANDOJACOMEG
+ * @author xedushx
  */
 public class VisualizarTexto extends Dialogo {
 

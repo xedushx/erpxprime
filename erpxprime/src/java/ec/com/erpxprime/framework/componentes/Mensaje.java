@@ -10,7 +10,7 @@ import org.primefaces.component.dialog.Dialog;
 
 /**
  *
- * @author dfjacome
+ * @author xedushx
  */
 public class Mensaje extends Dialog {
 

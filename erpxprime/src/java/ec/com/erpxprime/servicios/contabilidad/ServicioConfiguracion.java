@@ -12,7 +12,7 @@ import ec.com.erpxprime.sistema.aplicacion.Utilitario;
 
 /**
  *
- * @author dfjacome
+ * @author xedushx
  */
 @Stateless
 public class ServicioConfiguracion {

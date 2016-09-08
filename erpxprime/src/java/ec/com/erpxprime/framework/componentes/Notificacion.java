@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, xedushx Fernando Jácome. All rights reserved.
+ * Copyright (c) 2012, xedushx . All rights reserved.
  */
 package ec.com.erpxprime.framework.componentes;
 
@@ -8,7 +8,7 @@ import org.primefaces.component.notificationbar.NotificationBar;
 
 /**
  *
- * @author xedushx Fernando Jácome
+ * @author xedushx 
  */
 public class Notificacion extends NotificationBar {
 

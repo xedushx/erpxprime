@@ -29,11 +29,13 @@ import ec.com.erpxprime.framework.componentes.bootstrap.Alerta;
 import ec.com.erpxprime.framework.componentes.bootstrap.CajaBootstrap;
 import ec.com.erpxprime.framework.componentes.bootstrap.PanelBootstrap;
 import ec.com.erpxprime.framework.componentes.bootstrap.RowBootstrap;
+import ec.com.erpxprime.servicios.sistema.ServicioSistema;
 import ec.com.erpxprime.sistema.aplicacion.Utilitario;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -74,7 +76,10 @@ public class mbe_index {
     private SeleccionArchivo sar_upload;
     private String empresa = utilitario.getVariable("empresa");
     private AutoCompletar aut_pantalla = new AutoCompletar();
-    private StreamedContent logo;
+    public static StreamedContent logo;
+    
+    @EJB
+    private ServicioSistema ser_sistema;
     
     @PostConstruct
     public void cargaSucursalesUsuario() {
@@ -169,6 +174,8 @@ public class mbe_index {
         dibuja.setStyle("width: 100%;overflow-x: hidden;overflow-y: auto;");
         dibuja.getChildren().clear();
 
+        logo = ser_sistema.getLogoEmpresa();
+        
         Alerta ale_inicio = new Alerta();
         ale_inicio.setAlertaCeleste("<strong>Bienvenido </strong> al Sistema Contable Financiero XPRIME v1.0 <span class='pull-right'> " + utilitario.getFechaLarga(utilitario.getFechaActual()) + " &nbsp;  </span>");
         dibuja.getChildren().add(ale_inicio);
@@ -210,6 +217,8 @@ public class mbe_index {
         pb_empresa.setTitulo(utilitario.getVariable("nombre_empresa"));
         pb_empresa.agregarComponenteContenido(new Etiqueta("<h3  style='font-weight: bold;text-align:center'>" + utilitario.getVariable("nombre_empresa") + "</h3> <p align='center'>"));
         Imagen ima_empresa = new Imagen();
+        ima_empresa.setWidth("500");
+        ima_empresa.setHeight("400");
         ima_empresa.setValueExpression("value", "mbe_index.logo");
         ima_empresa.setStyleClass("img-responsive");
         pb_empresa.agregarComponenteContenido(ima_empresa);

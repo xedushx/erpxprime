@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, xedushx Fernando Jácome. All rights reserved.
+ * Copyright (c) 2012, xedushx . All rights reserved.
  */
 package ec.com.erpxprime.framework.componentes;
 
@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  *
- * @author xedushx Fernando Jácome
+ * @author xedushx 
  */
 public class SeleccionTabla extends Dialogo {
 

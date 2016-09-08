@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="280" pageHeight="85" whenNoDataType="BlankPage" columnWidth="240" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" uuid="fedf1459-643b-41cd-bb4f-3d5a5fea7e1d">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_empresa" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT * FROM tbl_empresa
+where id_empresa=$P{id_empresa}]]>
+	</queryString>
+	<field name="id_empresa" class="java.lang.Integer"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="telefono" class="java.lang.String"/>
+	<field name="representante" class="java.lang.String"/>
+	<field name="direccion" class="java.lang.String"/>
+	<field name="emp_estado" class="java.lang.Boolean"/>
+	<field name="ruc_empresa" class="java.lang.String"/>
+	<field name="logo_empr" class="java.lang.Object"/>
+	<title>
+		<band height="80" splitType="Stretch">
+			<textField>
+				<reportElement x="72" y="54" width="168" height="15" uuid="741c4b2f-55a2-4cca-be77-f91444d4c746"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["RUC: "+$F{ruc_empresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="72" y="12" width="168" height="15" uuid="3cda33f8-844f-4c17-89ee-eb1edabb551d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="72" y="26" width="168" height="15" uuid="1bfe65a1-d08f-480d-9b25-37c60e3ce08f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="72" y="40" width="168" height="15" uuid="3e00382d-6f9a-48a0-a7ab-dfd300a228fb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Teléfono: "+$F{telefono}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle" isUsingCache="true" onErrorType="Blank">
+				<reportElement x="0" y="12" width="72" height="57" uuid="5bd3a671-dfef-46ba-9e14-efed53920528"/>
+				<imageExpression><![CDATA[net.sf.jasperreports.engine.util.JRImageLoader.loadImage((byte[]) $F{logo_empr})]]></imageExpression>
+			</image>
+		</band>
+	</title>
+</jasperReport>

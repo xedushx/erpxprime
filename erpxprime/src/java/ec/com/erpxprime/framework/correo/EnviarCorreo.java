@@ -22,7 +22,7 @@ import javax.mail.internet.MimeMultipart;
 
 /**
  *
- * @author xedushx Fernando Jácome
+ * @author xedushx 
  */
 public class EnviarCorreo {
 

@@ -14,7 +14,7 @@ import javax.faces.component.html.HtmlPanelGroup;
 
 /**
  *
- * @author xedushxFERNANDOJACOMEG
+ * @author xedushx
  */
 public class GrupoBootstrap extends HtmlPanelGroup {
 

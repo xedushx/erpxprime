@@ -13,7 +13,7 @@ import org.primefaces.component.separator.Separator;
 
 /**
  *
- * @author dfjacome
+ * @author xedushx
  */
 public class PanelArbol extends HtmlPanelGroup implements org.primefaces.component.api.Widget {
 

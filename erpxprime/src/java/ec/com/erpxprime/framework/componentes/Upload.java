@@ -1,9 +1,10 @@
 /*
- * Copyright (c) 2012, xedushx Fernando Jácome. All rights reserved.
+ * Copyright (c) 2012, xedushx . All rights reserved.
  */
 package ec.com.erpxprime.framework.componentes;
 
 import ec.com.erpxprime.framework.aplicacion.Framework;
+import ec.com.erpxprime.framework.convertidores.UploadStreamedContent;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,13 +17,11 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import org.primefaces.component.fileupload.FileUpload;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 /**
  *
- * @author xedushx Fernando Jácome
+ * @author xedushx 
  */
 public class Upload extends FileUpload {
 
@@ -31,7 +30,7 @@ public class Upload extends FileUpload {
     private List<File> archivos;
     private File archivo;
     private String nombreReal;
-    private StreamedContent stream;
+    private UploadStreamedContent stream;
 
     public Upload() {
         this.setLabel("Buscar Archivo");
@@ -102,82 +101,103 @@ public class Upload extends FileUpload {
 
     public void subirArchivo(FileUploadEvent event) {
         if (carpeta != null) {
-
             try {
                 Framework framework = new Framework();
-                String str_nombre = framework.getVariable("id_usuario") + framework.getFechaActual().replace("-", "") + framework.getHoraActual().replace(":", "") + event.getFile().getFileName().substring(event.getFile().getFileName().lastIndexOf("."), event.getFile().getFileName().length());
+                String str_nombre = event.getFile().getFileName().replace(" ", "_") + "_" + framework.getVariable("id_usuario") + framework.getFechaActual().replace("-", "") + framework.getHoraActual().replace(":", "") + event.getFile().getFileName().substring(event.getFile().getFileName().lastIndexOf("."), event.getFile().getFileName().length());
+                str_nombre = str_nombre.toLowerCase();
                 String str_path = framework.getPropiedad("rutaUpload") + "/" + carpeta;
-                File path = new File(str_path);
-                path.mkdirs();//Creo el Directorio            
-                archivo = new File(str_path + "/" + str_nombre);
+                File path = null;
+                File result = null;
+                try {
+                    path = new File(str_path);
+                    path.mkdirs();//Creo el Directorio de respaldos de archivos
+                    result = new File(str_path + "/" + str_nombre);
+                    archivo = result;
+                } catch (Exception e) {
+                }
+
                 ///Para el .war 
                 ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
-                str_path = extContext.getRealPath("/upload/" + carpeta);
-                path = new File(str_path);
-                path.mkdirs();//Creo el Directorio
-                File result1 = new File(str_path + "/" + str_nombre);
+                str_path = extContext.getRealPath("/upload/");
+                File result1 = null;
+                //try
+                try {
+
+                    path = new File(str_path + "/" + carpeta);
+                    path.mkdirs();//Creo el Directorio
+                    str_path = extContext.getRealPath("/upload/" + carpeta);
+                    result1 = new File(str_path + "/" + str_nombre);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 int BUFFER_SIZE = 6124;
                 try {
-                    FileOutputStream fileOutputStream = new FileOutputStream(archivo);
-                    byte[] buffer = new byte[BUFFER_SIZE];
-                    int bulk;
-                    InputStream inputStream = event.getFile().getInputstream();
-                    while (true) {
-                        bulk = inputStream.read(buffer);
-                        if (bulk < 0) {
-                            break;
+                    if (result != null) {
+                        FileOutputStream fileOutputStream = new FileOutputStream(archivo);
+                        byte[] buffer = new byte[BUFFER_SIZE];
+                        int bulk;
+                        InputStream inputStream = event.getFile().getInputstream();
+                        while (true) {
+                            bulk = inputStream.read(buffer);
+                            if (bulk < 0) {
+                                break;
+                            }
+                            fileOutputStream.write(buffer, 0, bulk);
+                            fileOutputStream.flush();
                         }
-                        fileOutputStream.write(buffer, 0, bulk);
-                        fileOutputStream.flush();
-                    }
-                    fileOutputStream.close();
-                    inputStream.close();
-                    if (isMultiple()) {
-                        if (archivos == null) {
-                            archivos = new ArrayList();
-                        } else {
-                            archivos.add(archivo);
+                        fileOutputStream.close();
+                        inputStream.close();
+                        
+                        if (isMultiple()) {
+                            if (archivos == null) {
+                                archivos = new ArrayList();
+                                archivos.add(archivo);
+                            } else {
+                                archivos.add(archivo);
+                            }
                         }
+                        
+                        nombreReal = event.getFile().getFileName();
                     }
-                    nombreReal = event.getFile().getFileName();
-                } catch (IOException e) {
+                }catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
+                
                 try {
-                    FileOutputStream fileOutputStream = new FileOutputStream(result1);
-                    byte[] buffer = new byte[BUFFER_SIZE];
-                    int bulk;
-                    InputStream inputStream = event.getFile().getInputstream();
-                    while (true) {
-                        bulk = inputStream.read(buffer);
-                        if (bulk < 0) {
-                            break;
+                    if (result1 != null) {
+                        FileOutputStream fileOutputStream = new FileOutputStream(result1);
+                        byte[] buffer = new byte[BUFFER_SIZE];
+                        int bulk;
+                        InputStream inputStream = event.getFile().getInputstream();
+                        while (true) {
+                            bulk = inputStream.read(buffer);
+                            if (bulk < 0) {
+                                break;
+                            }
+                            fileOutputStream.write(buffer, 0, bulk);
+                            fileOutputStream.flush();
                         }
-                        fileOutputStream.write(buffer, 0, bulk);
-                        fileOutputStream.flush();
+                        fileOutputStream.close();
+                        inputStream.close();
                     }
-                    fileOutputStream.close();
-                    inputStream.close();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
-
-        } else {
+        }else {
             try {
                 //Funciona como stream
                 UploadedFile file = event.getFile();
-                stream = new DefaultStreamedContent(file.getInputstream(), file.getContentType());
+                stream = new UploadStreamedContent(file.getInputstream(), file.getContentType(), file.getContents());
                 nombreReal = file.getFileName();
                 System.out.println(" nombre " + nombreReal + "   " + stream);
             } catch (IOException ex) {
                 System.out.println("ERROR:" + ex.getMessage());
             }
-
         }
-
     }
 
     public void limpiar() {
@@ -234,11 +254,11 @@ public class Upload extends FileUpload {
         this.nombreReal = nombreReal;
     }
 
-    public StreamedContent getStream() {
+    public UploadStreamedContent getStream() {
         return stream;
     }
 
-    public void setStream(StreamedContent stream) {
+    public void setStream(UploadStreamedContent stream) {
         this.stream = stream;
     }
 

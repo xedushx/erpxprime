@@ -1,6 +1,6 @@
 /**
  *
- * @author xedushx Fernando Jácome
+ * @author xedushx 
  */
 $(document).bind("touchmove", function (event) {
     event.preventDefault();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, xedushx Fernando Jácome. All rights reserved.
+ * Copyright (c) 2012, xedushx . All rights reserved.
  */
 package ec.com.erpxprime.framework.convertidores;
 
@@ -11,7 +11,7 @@ import javax.faces.convert.FacesConverter;
 
 /**
  *
- * @author xedushx Fernando Jácome
+ * @author xedushx 
  */
 @FacesConverter("ConvertidorFecha")
 public class ConvertidorFecha implements Converter {

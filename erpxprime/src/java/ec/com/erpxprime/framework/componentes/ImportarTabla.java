@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, xedushx Fernando Jácome. All rights reserved.
+ * Copyright (c) 2013, xedushx . All rights reserved.
  */
 package ec.com.erpxprime.framework.componentes;
 
@@ -11,7 +11,7 @@ import jxl.Workbook;
 import org.primefaces.event.FileUploadEvent;
 
 /*
- * @author xedushx Fernando Jácome
+ * @author xedushx 
  */
 public class ImportarTabla extends Dialogo {
 

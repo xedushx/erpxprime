@@ -15,7 +15,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author dfjacome
+ * @author xedushx
  */
 @Stateless
 public class ServicioContabilidadGeneral {

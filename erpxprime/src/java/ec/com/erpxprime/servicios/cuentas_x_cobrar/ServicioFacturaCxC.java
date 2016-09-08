@@ -16,7 +16,7 @@ import ec.com.erpxprime.servicios.contabilidad.ServicioContabilidadGeneral;
 
 /**
  *
- * @author xedushxFERNANDOJACOMEG
+ * @author xedushx
  */
 @Stateless
 public class ServicioFacturaCxC extends ServicioBase {

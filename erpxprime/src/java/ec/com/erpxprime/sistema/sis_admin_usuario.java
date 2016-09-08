@@ -83,7 +83,7 @@ public final class sis_admin_usuario extends Pantalla {
         Panel pan_empresa = new Panel();
         pan_empresa.setHeader("EMPRESA");
         Imagen ima_empresa = new Imagen();
-        ima_empresa.setValue((utilitario.getConexion().consultar("SELECT logo_empr from tbl_empresa where id_empresa=" + utilitario.getVariable("empresa")).get(0)));
+        ima_empresa.setValueExpression("value", "mbe_index.logo");
         ima_empresa.setWidth("200");
         ima_empresa.setHeight("100");
         pan_empresa.getChildren().add(ima_empresa);

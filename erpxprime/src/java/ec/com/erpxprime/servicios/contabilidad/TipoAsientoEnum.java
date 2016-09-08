@@ -7,7 +7,7 @@ package ec.com.erpxprime.servicios.contabilidad;
 
 /**
  *
- * @author xedushxFERNANDOJACOMEG
+ * @author xedushx
  */
 public enum TipoAsientoEnum {
 

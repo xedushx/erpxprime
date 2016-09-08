@@ -21,13 +21,24 @@ public class sis_empresa extends Pantalla{
         tab_tabla.setId("tab_tabla");
         tab_tabla.setTipoFormulario(true);
         tab_tabla.setTabla("tbl_empresa", "id_empresa", 1);
-        tab_tabla.getColumna("nombre").setNombreVisual("EMPRESA");
+        tab_tabla.getColumna("nombre").setNombreVisual("RAZÓN SOCIAL");
         tab_tabla.getColumna("telefono").setNombreVisual("TElÉFONOS");
         tab_tabla.getColumna("representante").setNombreVisual("REPRESENTANTE");
         tab_tabla.getColumna("direccion").setNombreVisual("DIRECCIÓN");
         tab_tabla.getColumna("emp_estado").setNombreVisual("ACTIVA");
-        tab_tabla.getColumna("logo_empr").setNombreVisual("LOGO");
-        tab_tabla.getColumna("logo_empr").setUpload("logos");
+        tab_tabla.getColumna("logo_empr").setNombreVisual("CARGAR LOGO");
+        tab_tabla.getColumna("ruc_empresa").setNombreVisual("RUC");
+        
+        tab_tabla.getColumna("nombre").setOrden(1);
+        tab_tabla.getColumna("ruc_empresa").setOrden(2);
+        tab_tabla.getColumna("direccion").setOrden(3);
+        tab_tabla.getColumna("telefono").setOrden(4);
+        tab_tabla.getColumna("representante").setOrden(5);        
+        tab_tabla.getColumna("emp_estado").setOrden(6);
+        tab_tabla.getColumna("logo_empr").setOrden(7);
+        
+//        tab_tabla.getColumna("logo_empr").setUpload("logos");
+        tab_tabla.getColumna("logo_empr").setUpload();
         tab_tabla.getColumna("logo_empr").setImagen("100", "200");
         tab_tabla.dibujar();
         PanelTabla pat_panel = new PanelTabla();

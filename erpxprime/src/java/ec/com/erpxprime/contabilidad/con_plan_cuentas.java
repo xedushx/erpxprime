@@ -166,6 +166,9 @@ public class con_plan_cuentas extends Pantalla {
         utilitario.addUpdate("arb_arbol");
     }
 
+    public void seleccionarTabla1(AjaxBehaviorEvent evt) {
+    }
+    
     public void seleccionarTabla1(SelectEvent evt) {
         //1 selecciona la fila de la tabla1
         tab_tabla1.seleccionarFila(evt);

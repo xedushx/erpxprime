@@ -7,7 +7,7 @@ package ec.com.erpxprime.servicios.sistema.enums;
 
 /**
  *
- * @author xedushxFERNANDOJACOMEG
+ * @author xedushx
  */
 public enum EnumAccionesAuditoria {
 

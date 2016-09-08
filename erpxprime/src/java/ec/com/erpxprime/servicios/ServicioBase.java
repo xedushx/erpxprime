@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  *
- * @author xedushx.jacome
+ * @author xedushx
  */
 public class ServicioBase {
 
